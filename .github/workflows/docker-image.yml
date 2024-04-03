@@ -35,5 +35,5 @@ jobs:
           push: true
           tags: |
             ghcr.io/lg-yyds/derper:latest
-            lg-yyds/derper:latest
-            lg-yyds/derper:${{ github.sha }}
+            yydsxll/derper:latest
+            yydsxll/derper:${{ github.sha }}
