@@ -1,9 +1,7 @@
 FROM golang:latest AS builder
-
-LABEL org.opencontainers.image.source="https://github.com/lg-yyds/derper-docker"
-
 WORKDIR /app
 
+# https://tailscale.com/kb/1118/custom-derp-servers/
 RUN go install tailscale.com/cmd/derper@main
 
 FROM ubuntu
@@ -25,7 +23,7 @@ ENV DERP_STUN_PORT 3478
 ENV DERP_HTTP_PORT 80
 ENV DERP_VERIFY_CLIENTS false
 
-COPY --from=builder /app/derper /app/derper
+COPY --from=builder /go/bin/derper .
 
 CMD /app/derper --hostname=$DERP_DOMAIN \
     --certmode=$DERP_CERT_MODE \
@@ -35,4 +33,3 @@ CMD /app/derper --hostname=$DERP_DOMAIN \
     --stun-port=$DERP_STUN_PORT \
     --http-port=$DERP_HTTP_PORT \
     --verify-clients=$DERP_VERIFY_CLIENTS
-
