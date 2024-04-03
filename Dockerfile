@@ -1,7 +1,9 @@
 FROM golang:latest AS builder
 WORKDIR /app
 
-# https://tailscale.com/kb/1118/custom-derp-servers/
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+LABEL org.opencontainers.image.source="https://github.com/lg-yyds/derper-docker"
+
 RUN go install tailscale.com/cmd/derper@main
 
 FROM ubuntu
