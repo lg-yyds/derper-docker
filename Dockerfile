@@ -1,8 +1,8 @@
 FROM golang:latest AS builder
-WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 LABEL org.opencontainers.image.source="https://github.com/lg-yyds/derper-docker"
+
+WORKDIR /app
 
 RUN go install tailscale.com/cmd/derper@main
 
@@ -25,7 +25,7 @@ ENV DERP_STUN_PORT 3478
 ENV DERP_HTTP_PORT 80
 ENV DERP_VERIFY_CLIENTS false
 
-COPY --from=builder /go/bin/derper .
+COPY --from=builder /app/derper /app/derper
 
 CMD /app/derper --hostname=$DERP_DOMAIN \
     --certmode=$DERP_CERT_MODE \
